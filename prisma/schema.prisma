@@ -43,6 +43,16 @@ model Admin {
   @@map("admins")
 }
 
+// 🟢 VC Message Model (Vice Chancellor's Message)
+model VCMessage {
+  id          String   @id @default(uuid())
+  message     String
+  imageUrl    String?
+  updatedAt   DateTime @updatedAt
+
+  @@map("vc_message")
+}
+
 
 enum UserRole {
   SUPER_ADMIN
