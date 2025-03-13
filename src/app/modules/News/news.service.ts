@@ -1,32 +1,71 @@
-// import prisma from "../../../shared/prisma";
-// import { News } from "@prisma/client";
-// import { IFile } from "../../interfaces/file";
-// import { fileUploader } from "../../../helpars/fileUploader";
-// import { INews } from "./news.interface";
+import httpStatus from "http-status";
+import prisma from "../../../shared/prisma";
+import ApiError from "../../errors/ApiError";
+import { IAuthUser } from "../../interfaces/common";
+import { INews } from "./news.interface";
 
-// const createNews = async (req: Request): Promise<News> => {
+const createNews = async (data: INews, user: IAuthUser): Promise<INews> => {
+    const result = await prisma.news.create({
+        data: {
+            ...data,
+            createdBy: user?.email
+        }
+    });
+    return result;
+};
+
+const getAllNews = async (): Promise<INews[]> => {
+    const result = await prisma.news.findMany();
+    return result;
+};
+
+const getNewsById = async (id: string): Promise<INews | null> => {
+    const result = await prisma.news.findUnique({
+        where: { id }
+    });
+    if (!result) {
+        throw new ApiError(httpStatus.NOT_FOUND, "News not found");
+    }
+    return result;
+};
+
+const updateNews = async (id: string, payload: Partial<INews>): Promise<INews> => {
+    const exists = await prisma.news.findUnique({
+        where: { id }
+    });
     
-//     const file = req.file as IFile;
+    if (!exists) {
+        throw new ApiError(httpStatus.NOT_FOUND, "News not found");
+    }
 
-//     if (file) {
-//         const uploadToCloudinary = await fileUploader.uploadToCloudinary(file);
-//         req.body.image = uploadToCloudinary?.secure_url
-//     }
+    const result = await prisma.news.update({
+        where: { id },
+        data: payload
+    });
+    return result;
+};
 
-//         const newsData: INews = {
-//         title: data.title,
-//         description: data.description,
-//         image: data.image
-//     }
+const deleteNews = async (id: string): Promise<INews> => {
+    const exists = await prisma.news.findUnique({
+        where: { id }
+    });
+    
+    if (!exists) {
+        throw new ApiError(httpStatus.NOT_FOUND, "News not found");
+    }
 
-//     const result = await prisma.news.create({
-//         data: newsData
-//     })
-//     return result;
-// }
+    const result = await prisma.news.delete({
+        where: { id }
+    });
+    return result;
+};
 
-// export const newsService = {
-//     createNews
-// }
+export const newsService = {
+    createNews,
+    getAllNews,
+    getNewsById,
+    updateNews,
+    deleteNews
+};
 
 

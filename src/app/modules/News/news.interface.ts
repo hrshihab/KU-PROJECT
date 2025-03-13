@@ -1,22 +1,7 @@
-export interface INews {
+export type INews = {
     title: string;
     description: string;
-   
+    imageUrl: string;
+    date: Date;
+    createdBy: string;
 }
-// export type INewsFilterRequest = {
-//     title?: string | undefined;
-//     description?: string | undefined;
-//     searchTerm?: string | undefined;
-// }
-
-// export type INewsResponse = {
-//     id: string;
-//     title: string;
-//     description: string;
-//     imageUrl: string | null;
-//     date: Date;
-//     createdBy: string;
-//     createdAt: Date;
-//     updatedAt: Date;
-// }
-

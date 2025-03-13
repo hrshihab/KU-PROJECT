@@ -4,6 +4,7 @@ import { AdminRoutes } from '../modules/Admin/admin.routes';
 import { AuthRoutes } from '../modules/Auth/auth.routes';
 import { MetaRoutes } from '../modules/Meta/meta.routes';
 import { VCMessageRoutes } from '../modules/VC/vc.route';
+import { NewsRoutes } from '../modules/News/news.route';
 // import { NewsRoutes } from '../modules/News/news.route';
 
 
@@ -30,6 +31,10 @@ const moduleRoutes = [
     {
         path: '/vc-message',
         route: VCMessageRoutes
+    },
+    {
+        path: '/news',
+        route: NewsRoutes
     }
 ];
 
