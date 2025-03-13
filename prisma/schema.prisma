@@ -23,7 +23,7 @@ model User {
   createdAt          DateTime   @default(now())
   updatedAt          DateTime   @updatedAt
   admin              Admin?
-
+  news               News[]
 
   @@map("users")
 }
@@ -53,6 +53,19 @@ model VCMessage {
   @@map("vc_message")
 }
 
+model News {
+  id          String   @id @default(uuid())
+  title       String
+  content     String   @db.Text
+  imageUrl    String?
+  publishDate DateTime @default(now())
+  author      User     @relation(fields: [authorId], references: [id])
+  authorId    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("news")
+}
 
 enum UserRole {
   SUPER_ADMIN
