@@ -6,7 +6,15 @@ import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import cookieParser from 'cookie-parser';
 
 const app: Application = express();
-app.use(cors());
+
+// CORS configuration
+app.use(cors({
+    origin: 'http://localhost:3004',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie']
+}));
+
 app.use(cookieParser());
 
 //parser

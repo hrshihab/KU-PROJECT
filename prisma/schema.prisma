@@ -24,7 +24,8 @@ model User {
   updatedAt          DateTime   @updatedAt
   admin              Admin?
   news               News[]
-
+  careers            Career[]
+  nocs               NOC[]
 
   @@map("users")
 }
@@ -69,7 +70,19 @@ model News {
   @@map("news")
 }
 
+model Career {
+  id           String   @id @default(uuid())
+  title        String
+  date         DateTime @default(now())
+  documentsUrl String
+  createdBy    String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  isDeleted    Boolean  @default(false)
+  user         User     @relation(fields: [createdBy], references: [email])
 
+  @@map("careers")
+}
 
 enum UserRole {
   SUPER_ADMIN
@@ -80,5 +93,62 @@ enum UserStatus {
   ACTIVE
   BLOCKED
   DELETED
+}
+
+enum NOCType {
+  NOC
+  GO
+}
+
+model NOC {
+  id            String   @id @default(uuid())
+  title         String
+  type          NOCType
+  publishedDate DateTime @default(now())
+  documentsUrl  String
+  createdBy     String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  isDeleted     Boolean  @default(false)
+  user          User     @relation(fields: [createdBy], references: [email])
+
+  @@map("nocs")
+}
+
+enum SupportStatus {
+  PENDING
+  IN_PROGRESS
+  RESOLVED
+  REJECTED
+}
+
+enum SupportCategory {
+  IT
+  ELECTRICAL
+  PLUMBING
+  CARPENTRY
+  CLEANING
+  SECURITY
+  OTHER
+}
+
+model Support {
+  id                String         @id @default(uuid())
+  name              String
+  designation       String
+  instituteOffice   String
+  email             String
+  buildingName      String?
+  roomNumber        String?
+  mobileNumber      String?
+  problemDescription String
+  attachmentUrl     String?
+  status            SupportStatus  @default(PENDING)
+  category          SupportCategory
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+  isDeleted         Boolean        @default(false)
+
+  @@map("supports")
 }
 
