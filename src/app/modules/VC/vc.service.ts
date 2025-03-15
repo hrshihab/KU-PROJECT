@@ -4,6 +4,7 @@ import prisma from "../../../shared/prisma";
 
 const createVCMessage = async (data: {message: string, imageUrl: string}) => {
     // Ensure the message is provided in the request body
+    console.log("data", data);
     if (!data.message || !data.imageUrl) {
         throw new Error("Message and imageUrl content is required");
 

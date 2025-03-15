@@ -18,7 +18,7 @@ const updateCareer = z.object({
     body: z.object({
         title: z.string().optional(),
         documentsUrl: z.string().optional(),
-        date: z.string().optional().transform((str) => new Date(str))
+        date: z.string().optional()
     })
 });
 

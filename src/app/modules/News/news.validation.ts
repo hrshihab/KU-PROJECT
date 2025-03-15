@@ -8,7 +8,7 @@ const createNews = z.object({
         description: z.string({
             required_error: "Description is required"
         }),
-        image: z.string({
+        imageUrl: z.string({
             required_error: "Image is required"
         }),
     })

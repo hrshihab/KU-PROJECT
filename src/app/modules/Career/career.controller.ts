@@ -8,6 +8,7 @@ import ApiError from "../../errors/ApiError";
 
 const createCareer = catchAsync(async (req: Request & { user?: IAuthUser }, res: Response) => {
     const user = req.user;
+    console.log('create');
     if (!user) {
         throw new ApiError(httpStatus.UNAUTHORIZED, 'User not found');
     }

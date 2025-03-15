@@ -30,6 +30,7 @@ const getNewsById = async (id: string): Promise<INews | null> => {
 };
 
 const updateNews = async (id: string, payload: Partial<INews>): Promise<INews> => {
+    console.log("payload", payload);
     const exists = await prisma.news.findUnique({
         where: { id }
     });
@@ -37,6 +38,8 @@ const updateNews = async (id: string, payload: Partial<INews>): Promise<INews> =
     if (!exists) {
         throw new ApiError(httpStatus.NOT_FOUND, "News not found");
     }
+
+    console.log("exists", exists);
 
     const result = await prisma.news.update({
         where: { id },

@@ -9,6 +9,7 @@ import validateRequest from "../../middlewares/validateRequest";
 const router = express.Router();
 
 router.post('/create-vc-message', auth(UserRole.SUPER_ADMIN, UserRole.ADMIN),
+
  //validateRequest(VCMessageValidation.createVCMessageZodSchema),
   VCMessageController.createVCMessage);
 

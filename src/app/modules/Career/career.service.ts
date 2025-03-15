@@ -5,10 +5,16 @@ import { IAuthUser } from "../../interfaces/common";
 import { ICareer } from "./career.interface";
 
 const createCareer = async (data: ICareer, user: IAuthUser): Promise<ICareer> => {
+    //console.log("data", data);
+    
+    if (!user?.email) {
+        throw new ApiError(httpStatus.BAD_REQUEST, "User email is required");
+    }
+    
     const result = await prisma.career.create({
         data: {
             ...data,
-            createdBy: user?.email
+            createdBy: user.email
         }
     });
     return result;
