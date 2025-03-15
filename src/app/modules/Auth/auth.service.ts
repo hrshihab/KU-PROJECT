@@ -110,12 +110,15 @@ const changePassword = async (user: any, payload: any) => {
 };
 
 const forgotPassword = async (payload: { email: string }) => {
-    const userData = await prisma.user.findUniqueOrThrow({
+    const userData = await prisma.user.findUnique({
         where: {
-            email: payload.email,
-            status: UserStatus.ACTIVE
+            email: payload.email
         }
     });
+    
+    if (!userData) {
+        throw new ApiError(httpStatus.NOT_FOUND, "User not found with this email");
+    }
 
     const resetPassToken = jwtHelpers.generateToken(
         { email: userData.email, role: userData.role },

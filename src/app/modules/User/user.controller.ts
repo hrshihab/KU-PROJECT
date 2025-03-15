@@ -10,7 +10,7 @@ import { JwtPayload } from "jsonwebtoken";
 import { IAuthUser } from "../../interfaces/common";
 
 const createAdmin = catchAsync(async (req: Request, res: Response) => {
-
+   console.log(req.body)
     const result = await userService.createAdmin(req);
     sendResponse(res, {
         statusCode: httpStatus.OK,

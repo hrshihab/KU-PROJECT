@@ -5,11 +5,11 @@ export type ISupport = {
     designation: string;
     instituteOffice: string;
     email: string;
-    buildingName?: string;
-    roomNumber?: string;
-    mobileNumber?: string;
+    buildingName?: string | null;
+    roomNumber?: string | null;
+    mobileNumber?: string | null;
     problemDescription: string;
-    attachmentUrl?: string;
+    attachmentUrl?: string | null;
     status: SupportStatus;
     category: SupportCategory;
     isDeleted?: boolean;

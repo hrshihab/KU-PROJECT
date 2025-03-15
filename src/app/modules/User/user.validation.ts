@@ -2,6 +2,7 @@ import { UserRole, UserStatus } from "@prisma/client";
 import { z } from "zod";
 
 const createAdmin = z.object({
+    body: z.object({
     password: z.string({
         required_error: "Password is required"
     }),
@@ -16,7 +17,9 @@ const createAdmin = z.object({
             required_error: "Contact Number is required!"
         })
     })
+    })
 });
+
 
 
 const updateStatus = z.object({

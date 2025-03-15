@@ -5,10 +5,13 @@ import { IAuthUser } from "../../interfaces/common";
 import { INews } from "./news.interface";
 
 const createNews = async (data: INews, user: IAuthUser): Promise<INews> => {
+    if (!user?.email) {
+        throw new ApiError(httpStatus.BAD_REQUEST, "User email is required");
+    }
     const result = await prisma.news.create({
         data: {
             ...data,
-            createdBy: user?.email
+            createdBy: user.email
         }
     });
     return result;

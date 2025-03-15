@@ -5,10 +5,13 @@ import { IAuthUser } from "../../interfaces/common";
 import { INOC } from "./noc.interface";
 
 const createNOC = async (data: INOC, user: IAuthUser): Promise<INOC> => {
+    if (!user?.email) {
+        throw new ApiError(httpStatus.BAD_REQUEST, "User email is required");
+    }
     const result = await prisma.nOC.create({
         data: {
             ...data,
-            createdBy: user?.email
+            createdBy: user.email
         }
     });
     return result;

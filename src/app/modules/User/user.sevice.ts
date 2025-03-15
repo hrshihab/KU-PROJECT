@@ -11,16 +11,16 @@ import { IAuthUser } from "../../interfaces/common";
 
 const createAdmin = async (req: Request): Promise<Admin> => {
     //console.log(req.file)
-    const file = req.file as IFile;
-    console.log("file")
-    console.log(file)
+    // const file = req.file as IFile;
+    // //console.log("file")
+    // //console.log(file)
 
-    if (file) {
-        console.log("uploadToCloudinary")
-        const uploadToCloudinary = await fileUploader.uploadToCloudinary(file);
-        console.log(uploadToCloudinary?.secure_url)
-        req.body.admin.profilePhoto = uploadToCloudinary?.secure_url
-    }
+    // if (file) {
+        ////console.log("uploadToCloudinary")
+       // const uploadToCloudinary = await fileUploader.uploadToCloudinary(file);
+        //console.log(uploadToCloudinary?.secure_url)
+        //req.body.admin.profilePhoto = uploadToCloudinary?.secure_url
+    //}
 
     
 
