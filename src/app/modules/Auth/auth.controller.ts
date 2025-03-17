@@ -58,6 +58,7 @@ const changePassword = catchAsync(async (req: Request & { user?: any }, res: Res
 
 const forgotPassword = catchAsync(async (req: Request, res: Response) => {
 
+    console.log(req.body);
     await AuthServices.forgotPassword(req.body);
 
     sendResponse(res, {

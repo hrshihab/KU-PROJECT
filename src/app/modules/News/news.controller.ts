@@ -5,7 +5,8 @@ import { Request, Response } from "express";
 import { newsService } from "./news.service";
 import { IAuthUser } from "../../interfaces/common";
 import ApiError from "../../errors/ApiError";
-
+import { newsFilterableFields } from "./news.constant";
+import pick from "../../../shared/pick";
 const createNews = catchAsync(async (req: Request & { user?: IAuthUser }, res: Response) => {
     const user = req.user;
     if (!user) {
@@ -21,12 +22,17 @@ const createNews = catchAsync(async (req: Request & { user?: IAuthUser }, res: R
 });
 
 const getAllNews = catchAsync(async (req: Request, res: Response) => {
-    const result = await newsService.getAllNews();
+    const filters = pick(req.query, newsFilterableFields);
+    const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder'])
+    //console.log(options) 
+    const result = await newsService.getAllNews(filters, options);
+
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
         message: "News retrieved successfully!",
-        data: result
+        meta: result.meta,
+        data: result.data
     });
 });
 

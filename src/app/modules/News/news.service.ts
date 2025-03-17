@@ -3,6 +3,11 @@ import prisma from "../../../shared/prisma";
 import ApiError from "../../errors/ApiError";
 import { IAuthUser } from "../../interfaces/common";
 import { INews } from "./news.interface";
+import { newsSearchableFields } from "./news.constant";
+import { paginationHelper } from "../../../helpars/paginationHelper";
+import {  IPaginationOptions } from "../../interfaces/pagination";
+import { Prisma } from "@prisma/client";
+import { INewsFilterRequest } from "./news.interface";
 
 const createNews = async (data: INews, user: IAuthUser): Promise<INews> => {
     if (!user?.email) {
@@ -17,9 +22,58 @@ const createNews = async (data: INews, user: IAuthUser): Promise<INews> => {
     return result;
 };
 
-const getAllNews = async (): Promise<INews[]> => {
-    const result = await prisma.news.findMany();
-    return result;
+const getAllNews = async (filters: INewsFilterRequest, options: IPaginationOptions) => {
+    const { page, limit, skip } = paginationHelper.calculatePagination(options);
+    const { searchTerm, ...filterData } = filters;
+
+    const andConditions: Prisma.NewsWhereInput[] = [];
+
+    if (searchTerm) {
+        andConditions.push({
+            OR: newsSearchableFields.map(field => ({
+                [field]: {
+                    contains: searchTerm,
+                    mode: 'insensitive'
+                }
+            }))
+        });
+    }
+
+    if (Object.keys(filterData).length > 0) {
+        andConditions.push({
+            AND: Object.keys(filterData).map(key => ({
+                [key]: {
+                    equals: (filterData as any)[key]
+                }
+            }))
+        });
+    }
+
+    const whereConditions: Prisma.NewsWhereInput = { AND: andConditions };
+
+    const result = await prisma.news.findMany({
+        where: whereConditions,
+        skip,
+        take: limit,
+        orderBy: options.sortBy && options.sortOrder ? {
+            [options.sortBy]: options.sortOrder
+        } : {
+            createdAt: 'desc'
+        }
+    });
+
+    const total = await prisma.news.count({
+        where: whereConditions
+    });
+
+    return {
+        meta: {
+            page,
+            limit,
+            total
+        },
+        data: result
+    };
 };
 
 const getNewsById = async (id: string): Promise<INews | null> => {

@@ -1,12 +1,15 @@
 {
   "name": "KU-Project-Server",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/server.js",
   "repository": "",
   "author": "Habibur Rahman Shihab <hrshihab10@gmail.com>",
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "tsc",
+    "postinstall": "prisma generate",
+    "start": "node dist/server.js",
     "seed": "ts-node-dev --respawn --transpile-only prisma/seed.ts"
   },
   "devDependencies": {
@@ -44,6 +47,6 @@
     "prisma": "^6.5.0",
     "sslcommerz-lts": "^1.1.0",
     "uuid": "^9.0.1",
-    "zod": "^3.22.4"
+    "zod": "^3.24.2"
   }
 }

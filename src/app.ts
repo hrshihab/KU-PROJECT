@@ -8,11 +8,24 @@ import cookieParser from 'cookie-parser';
 const app: Application = express();
 
 // CORS configuration
+// app.use(cors({
+//     origin: 'https://ku-ict.netlify.app',
+//     credentials: true,
+//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+//     allowedHeaders: ['Content-Type', 'Authorization', 'Cookie']
+// }));
+
+const allowedOrigins = ['http://localhost:3001', 'http://localhost:3000', 'https://ku-ict.netlify.app','https://ku-ict.vercel.app'];
+
 app.use(cors({
-    origin: 'http://localhost:3000',
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie']
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true); // Allow the request
+        } else {
+            callback(new Error('Not allowed by CORS')); // Block the request
+        }
+    },
+    credentials: true
 }));
 
 app.use(cookieParser());

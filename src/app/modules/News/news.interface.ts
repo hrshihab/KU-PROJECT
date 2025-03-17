@@ -5,3 +5,9 @@ export type INews = {
     date: Date;
     createdBy: string;
 }
+export type INewsFilterRequest = {
+    searchTerm?: string;
+    title?: string;
+    description?: string;
+
+}

@@ -9,7 +9,27 @@ import { paginationHelper } from "../../../helpars/paginationHelper";
 import { userSearchAbleFields } from "./user.constant";
 import { IAuthUser } from "../../interfaces/common";
 
+import httpStatus from "http-status";
+import ApiError from "../../errors/ApiError";
+
 const createAdmin = async (req: Request): Promise<Admin> => {
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(req.body.admin.email)) {
+        throw new ApiError(httpStatus.BAD_REQUEST, "Invalid email format");
+    }
+    
+    // Check if email already exists
+    const existingUser = await prisma.user.findUnique({
+        where: {
+            email: req.body.admin.email
+        }
+    });
+    
+    if (existingUser) {
+        throw new ApiError(httpStatus.CONFLICT, "Email already exists");
+    }
+    
     //console.log(req.file)
     // const file = req.file as IFile;
     // //console.log("file")
@@ -180,11 +200,11 @@ const updateMyProfie = async (user: IAuthUser, req: Request) => {
         }
     });
 
-    const file = req.file as IFile;
-    if (file) {
-        const uploadToCloudinary = await fileUploader.uploadToCloudinary(file);
-        req.body.profilePhoto = uploadToCloudinary?.secure_url;
-    }
+    // const file = req.file as IFile;
+    // if (file) {
+    //     const uploadToCloudinary = await fileUploader.uploadToCloudinary(file);
+    //     req.body.profilePhoto = uploadToCloudinary?.secure_url;
+    // }
 
     let profileInfo;
 

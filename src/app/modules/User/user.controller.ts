@@ -69,6 +69,7 @@ const getMyProfile = catchAsync(async (req: Request & { user?: IAuthUser }, res:
 const updateMyProfie = catchAsync(async (req: Request & { user?: IAuthUser }, res: Response) => {
 
     const user = req.user;
+    //console.log(req.body,req.user)
 
     const result = await userService.updateMyProfie(user as IAuthUser, req);
 
