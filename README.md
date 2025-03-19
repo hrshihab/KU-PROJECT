@@ -1,11 +1,12 @@
-Here is a **README** file for your **KU-Project-Server** that you can copy and paste:
 
----
 
 # KU-Project-Server
 
 This is the backend server for the **KU Project** built using **Node.js**, **Express.js**, **TypeScript**, and **Prisma ORM**. The server handles authentication, user management, news management, support requests, career management, and NOC/GO document management.
 
+![KU Project Server](https://i.ibb.co.com/prwW9cQk/KU-ICT-CELL-PROJECT-ERD.png)  
+*KU Project Server Preview*
+r
 ## Technologies Used
 
 - **Node.js** 🟩
@@ -48,15 +49,19 @@ npm install
 Create a `.env` file in the root of the project and add the following environment variables:
 
 ```env
-DATABASE_URL="your-database-connection-string"
-JWT_SECRET="your-jwt-secret"
-CLOUDINARY_CLOUD_NAME="your-cloudinary-cloud-name"
-CLOUDINARY_API_KEY="your-cloudinary-api-key"
-CLOUDINARY_API_SECRET="your-cloudinary-api-secret"
-SMTP_HOST="your-smtp-server"
-SMTP_PORT="your-smtp-port"
-SMTP_USER="your-email"
-SMTP_PASS="your-email-password"
+NODE_ENV="development"
+PORT=3000
+DATABASE_URL="postgresql://DB_USER:DB_PASS@localhost:5432/DB_NAME?schema=public"
+JWT_SECRET="YOUR SECRET"
+EXPIRES_IN="30d"
+REFRESH_TOKEN_SECRET="YOUR SECRET"
+REFRESH_TOKEN_EXPIRES_IN="30d"
+RESET_PASS_TOKEN="YOUR TOKEN SECRET"
+RESET_PASS_TOKEN_EXPIRES_IN="5m"
+RESET_PASS_LINK="FRONT-END RESET PASSWORD FORM LINK"
+EMAIL = "YOUR EMAIL"
+APP_PASS = "YOUR APP PASSWORD"
+
 ```
 
 ### 4. Prisma Setup
